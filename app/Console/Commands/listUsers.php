@@ -19,16 +19,23 @@ class listUsers extends Command
      *
      * @var string
      */
-    protected $description = 'List of users';
+    protected $description = 'Lists of users';
 
     /**
      * Execute the console command.
      */
     public function handle()
     {
-        $this->table(
-            ['ID', 'Name', 'Email'],
-            User::all(['ID', 'Name', 'Email'])->toArray()
-        );
+        $users = User::all(['ID', 'Name', 'Email']);
+
+        if ($users->isEmpty()) {
+            $this->info('No users found.');
+        } else {
+
+            $this->table(
+                ['ID', 'Name', 'Email'],
+                $users
+            );
+        }
     }
 }
